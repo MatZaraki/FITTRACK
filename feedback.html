@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback</title>
+
+    <!-- Adicione estilos CSS para os botões e estrelas -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .star-button {
+            background-color: transparent;
+            border: none;
+            font-size: 30px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .star-button:hover {
+            color: gold;
+        }
+
+        .selected {
+            color: gold;
+        }
+
+        #visual-feedback,
+        #audio-feedback,
+        #comments-section,
+        #feedback-history {
+            margin-top: 20px;
+        }
+
+        #visual-indicator,
+        #audio-indicator {
+            font-size: 20px;
+        }
+
+        #visual-indicator.success,
+        #audio-indicator.success {
+            color: green;
+        }
+
+        #feedback-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        #feedback-history ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        #feedback-history li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="feedback-container">
+        <h1>Avaliação</h1>
+
+        <!-- Botões de avaliação por estrelas -->
+        <div>
+            {% for i in range(1, 6) %}
+            <button class="star-button {% if selected_rating is defined and i == selected_rating %}selected{% endif %}"
+                onclick="selectRating({{ i }})">
+                &#9733;
+            </button>
+            {% endfor %}
+        </div>
+
+        <!-- Incorporação de feedbacks visuais e auditivos -->
+        <div id="visual-feedback">
+            <!-- Elementos visuais de feedback aqui -->
+            <p>Feedback Visual: <span id="visual-indicator"></span></p>
+        </div>
+
+        <div id="audio-feedback">
+            <!-- Elementos de feedback auditivo aqui -->
+            <p>Feedback Auditivo: <span id="audio-indicator"></span></p>
+        </div>
+
+        <!-- Caixa de opção para comentários -->
+        <div id="comments-section">
+            <label for="comments">Comentários:</label>
+            <textarea id="comments" name="comments" rows="4" cols="50"></textarea>
+        </div>
+
+        <!-- Botão para registrar feedback -->
+        <div>
+            <button class="button" onclick="registerFeedback()">Registrar Feedback</button>
+        </div>
+
+        <!-- Histórico de feedbacks -->
+        <div id="feedback-history">
+            <h2>Histórico de Feedbacks</h2>
+            <ul id="history-list"></ul>
+        </div>
+
+        <!-- Botão para limpar o histórico -->
+        <div>
+            <button class="button" onclick="clearFeedbackHistory()">Limpar Histórico</button>
+        </div>
+    </div>
+
+    <!-- JavaScript para manipular a seleção de estrelas e registro de feedback -->
+    <script>
+        let selected_rating = 0;
+
+        function selectRating(rating) {
+            selected_rating = rating;
+            updateStars();
+        }
+
+        function updateStars() {
+            const starButtons = document.querySelectorAll('.star-button');
+            starButtons.forEach((button, index) => {
+                button.classList.toggle('selected', index < selected_rating);
+            });
+        }
+
+        function registerFeedback() {
+            // Lógica para registrar os comentários
+            const comments = document.getElementById('comments').value;
+
+            // Adicionar feedback visual e auditivo
+            provideVisualFeedback();
+            provideAudioFeedback();
+
+            // Salvar localmente o feedback
+            saveFeedbackLocally(comments);
+
+            // Atualizar histórico de feedbacks
+            updateFeedbackHistory();
+
+            // Limpar campos
+            document.getElementById('comments').value = '';
+            selected_rating = 0;
+            updateStars();
+        }
+
+        function provideVisualFeedback() {
+            // Lógica para feedback visual
+            const visualIndicator = document.getElementById('visual-indicator');
+            visualIndicator.textContent = '✔️';
+            visualIndicator.classList.add('success'); // Adicione uma classe para efeito visual
+        }
+
+        function provideAudioFeedback() {
+            // Lógica para feedback auditivo
+            const audioIndicator = document.getElementById('audio-indicator');
+            audioIndicator.textContent = '🔊';
+            audioIndicator.classList.add('success'); // Adicione uma classe para efeito visual
+            // Adicione a lógica para reproduzir um som ou qualquer feedback auditivo desejado
+        }
+
+        function saveFeedbackLocally(comments) {
+            // Obter feedbacks salvos localmente ou inicializar um array vazio
+            let savedFeedbacks = JSON.parse(localStorage.getItem('feedbacks')) || [];
+
+            // Adicionar novo feedback
+            savedFeedbacks.push({ comments });
+
+            // Salvar novamente no armazenamento local
+            localStorage.setItem('feedbacks', JSON.stringify(savedFeedbacks));
+        }
+
+        function updateFeedbackHistory() {
+            // Obter o elemento da lista de histórico
+            const historyList = document.getElementById('history-list');
+
+            // Limpar a lista
+            historyList.innerHTML = '';
+
+            // Obter feedbacks salvos localmente
+            const savedFeedbacks = JSON.parse(localStorage.getItem('feedbacks')) || [];
+
+            // Adicionar feedbacks à lista
+            savedFeedbacks.forEach((feedback, index) => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `#${index + 1}: Comentários: ${feedback.comments}`;
+                historyList.appendChild(listItem);
+            });
+        }
+
+        function clearFeedbackHistory() {
+            // Limpar feedbacks salvos localmente
+            localStorage.removeItem('feedbacks');
+
+            // Atualizar histórico de feedbacks
+            updateFeedbackHistory();
+        }
+    </script>
+</body>
+
+</html>

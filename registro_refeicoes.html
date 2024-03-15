@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Refeições</title>
+
+    <!-- Adicione estilos CSS para os botões -->
+    <style>
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #4CAF50;
+            /* Cor verde como exemplo */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            /* Adicione margem no topo */
+        }
+
+        .button-secondary {
+            background-color: #008CBA;
+            /* Cor azul como exemplo */
+        }
+
+        .social-share-buttons {
+            margin-top: 20px;
+            /* Adicione margem no topo dos botões de compartilhamento */
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Registrar Refeições</h1>
+    <form method="POST" action="{{ url_for('registro_refeicoes', username=username) }}">
+        <label for="refeicao">Refeição:</label>
+        <input type="text" name="refeicao" required>
+
+        <label for="calorias">Calorias:</label>
+        <input type="number" name="calorias" required>
+
+        <label for="tipo_refeicao">Tipo de Refeição:</label>
+        <select name="tipo_refeicao" required>
+            <option value="" disabled selected>Selecione o tipo de refeição</option>
+            <option value="Café da Manhã">Café da Manhã</option>
+            <option value="Lanche da Manhã">Lanche da Manhã</option>
+            <option value="Almoço">Almoço</option>
+            <option value="Lanche da Tarde">Lanche da Tarde</option>
+            <option value="Jantar">Jantar</option>
+            <option value="Ceia">Ceia</option>
+            <!-- Adicione outros tipos de refeição conforme necessário -->
+        </select>
+
+        <button type="submit" class="button">Registrar Refeição</button>
+    </form>
+
+    <h2>Refeições Registradas</h2>
+    {% if user_profile.get("refeicoes") %}
+    <ul>
+        {% for refeicao in user_profile["refeicoes"] %}
+        <li>{{ refeicao["refeicao"] }} - Calorias: {{ refeicao["calorias"] }} - Tipo: {{ refeicao["tipo_refeicao"] }}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Nenhuma refeição registrada.</p>
+    {% endif %}
+
+    <!-- Adicione botões de compartilhamento social -->
+    <div class="social-share-buttons">
+        <h2>Compartilhamento</h2>
+        <!-- Botão do Instagram -->
+        <button class="button button-secondary" onclick="shareOnInstagram()">Instagram</button>
+        <!-- Botão do TikTok -->
+        <button class="button button-secondary" onclick="shareOnTikTok()">TikTok</button>
+        <!-- Botão do Twitter -->
+        <button class="button button-secondary" onclick="shareOnTwitter()">X</button>
+        <!-- Botão da Plataforma X -->
+        <!-- Adicione mais botões conforme necessário -->
+    </div>
+
+    <h2>Controle de Água</h2>
+    <!-- Adicione um botão para a tela de controle de água -->
+    <a href="{{ url_for('mostrar_controle') }}" class="button button-secondary">Controle de Água</a>
+
+
+    <!-- Adicione os arquivos necessários do SocialShare.js -->
+    <script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+
+    <!-- Funções JavaScript para redirecionar para as URLs adequadas -->
+    <script>
+        function shareOnInstagram() {
+            window.location.href = 'https://www.instagram.com/';
+        }
+
+        function shareOnTikTok() {
+            window.location.href = 'https://www.tiktok.com/';
+        }
+
+        function shareOnTwitter() {
+            window.location.href = 'https://twitter.com/';
+        }
+    </script>
+
+</body>
+
+</html>

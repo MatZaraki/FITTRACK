@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - {{ username }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1,
+        h2 {
+            color: #333;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        select,
+        input[type="number"] {
+            width: 30%;
+            padding: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 20px;
+            border-radius: 4px;
+        }
+
+        .button-secondary {
+            background-color: #3498db;
+        }
+
+        .button-secondary:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Bem-vindo, {{ username }}!</h1>
+
+    <h2>Informações do Perfil</h2>
+    <p>Gênero: {% if user_profile.sex %}{{ user_profile.sex }}{% else %}Não informado{% endif %}</p>
+    <p>Idade: {{ user_profile.age if user_profile.age is defined else 'Não informada' }}</p>
+    <p>Objetivo de Saúde: {{ user_profile.health_goals if user_profile.health_goals is defined else 'Não informado' }}</p>
+
+    <h2>Exercícios Realizados</h2>
+    {% if user_profile.exercise_log %}
+    <ul>
+        {% for exercise in user_profile.exercise_log %}
+        <li>
+            {{ exercise.type }} por {{ exercise.duration }} minutos
+            {% if exercise.calories_burned is defined %}
+            ({{ exercise.calories_burned }} calorias)
+            {% if exercise.calories_burned > 0 %}
+            - Média: {{ exercise.calories_burned / (exercise.duration / 60) }} calorias por hora
+            {% endif %}
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Nenhum exercício registrado.</p>
+    {% endif %}
+
+    <h2>Adicionar Treinamento</h2>
+    <form method="POST">
+        <label for="exercise_type">Tipo de Exercício:</label>
+        <select name="exercise_type" required>
+            <option value="" disabled selected>Selecione a modalidade</option>
+            <option value="Pular corda">Pular corda - Média: 1074 calorias/hora</option>
+            <option value="Corrida (12 km/h)">Corrida (12 km/h) - Média: 1074 calorias/hora</option>
+            <option value="Taekwondo">Taekwondo - Média: 937 calorias/hora</option>
+            <option value="Natação (ritmo intenso)">Natação (ritmo intenso) - Média: 892 calorias/hora</option>
+            <option value="Subir degraus">Subir degraus - Média: 819 calorias/hora</option>
+            <option value="Corrida (8 km/h)">Corrida (8 km/h) - Média: 755 calorias/hora</option>
+            <option value="Basquete">Basquete - Média: 728 calorias/hora</option>
+            <option value="Futebol americano">Futebol americano - Média: 728 calorias/hora</option>
+            <option value="Tênis">Tênis - Média: 728 calorias/hora</option>
+            <option value="Esqui aquático">Esqui aquático - Média: 560 calorias/hora</option>
+            <option value="Natação (ritmo leve ou moderado)">Natação (ritmo leve ou moderado) - Média: 856 calorias/hora
+            </option>
+            <option value="Hidroginástica">Hidroginástica - Média: 501 calorias/hora</option>
+            <option value="Aeróbica (baixo impacto)">Aeróbica (baixo impacto) - Média: 455 calorias/hora</option>
+            <option value="Aparelho elíptico (moderado)">Aparelho elíptico (moderado) - Média: 455 calorias/hora</option>
+            <option value="Levantamento de peso">Levantamento de peso - Média: 455 calorias/hora</option>
+            <option value="Softbol ou basebol">Softbol ou basebol - Média: 455 calorias/hora</option>
+            <option value="Golfe (carregando os tacos)">Golfe (carregando os tacos) - Média: 391 calorias/hora</option>
+            <option value="Esqui (descida)">Esqui (descida) - Média: 391 calorias/hora</option>
+            <option value="Caminhada (6 km/h)">Caminhada (6 km/h) - Média: 391 calorias/hora</option>
+            <option value="Ciclismo (leve, por lazer)">Ciclismo (leve, por lazer) - Média: 364 calorias/hora</option>
+            <option value="Volei">Volei - Média: 364 calorias/hora</option>
+            <option value="PowerYoga">PowerYoga - Média: 364 calorias/hora</option>
+            <option value="Canoagem">Canoagem - Média: 319 calorias/hora</option>
+            <option value="Boliche">Boliche - Média: 273 calorias/hora</option>
+            <option value="Dança de Salão">Dança de Salão - Média: 273 calorias/hora</option>
+            <option value="Taichi">Tai chi - Média: 273 calorias/hora</option>
+            <option value="Caminhada (4 km/h)">Caminhada (4 km/h) - Média: 255 calorias/hora</option>
+            <option value="Hatha Yoga">Hatha Yoga - Média: 228 calorias/hora</option>
+        </select>
+
+        <label for="duration">Duração (minutos):</label>
+        <input type="number" name="duration" required>
+        <button type="submit">Adicionar</button>
+    </form>
+
+    <h2>Calcular IMC</h2>
+    <form method="post" action="{{ url_for('dashboard', username=username) }}">
+        <label for="weight">Peso (kg):</label>
+        <input type="number" name="weight" id="weight" required>
+        <label for="height">Altura (cm):</label>
+        <input type="number" name="height" id="height" required>
+        <button type="submit" name="calculate_imc">Calcular IMC</button>
+    </form>
+
+    {% if user_profile.imc is defined %}
+    <p>IMC: {{ user_profile.imc }} - Nível: {{ classify_imc(user_profile.imc) }}</p>
+    {% endif %}
+
+    <h2>Registros de Refeições</h2>
+    <a href="{{ url_for('registro_refeicoes') }}" class="button">Registrar Refeição</a>
+</body>
+
+</html>

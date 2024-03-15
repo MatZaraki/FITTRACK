@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bem-vindo ao Aplicativo FitTrack!</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #welcome-message {
+            color: #3498db;
+            /* Azul */
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .button {
+            padding: 10px 20px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+            width: 120px;
+        }
+
+        .login-button {
+            background-color: #3498db;
+            /* Azul */
+        }
+
+        .cadastro-button {
+            background-color: #2ecc71;
+            /* Verde */
+        }
+
+        #video-container {
+            margin-top: 20px;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .video-link {
+            display: block;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="welcome-message">Bem-vindo ao Aplicativo FitTrack!</div>
+
+    <div id="video-container" class="center">
+        <p>Introdução 1:</p>
+        <a class="video-link" href="https://www.youtube.com/watch?v=3Pklz_PPiGQ" target="_blank">A importância da
+            prática de exercícios físicos</a>
+
+        <p>Introdução 2:</p>
+        <a class="video-link" href="https://www.youtube.com/watch?v=i7QwQPiAa0A" target="_blank">O Verdadeiro Poder do
+            Exercício Físico</a>
+    </div>
+
+    <div class="button-container">
+        <a class="button login-button" href="{{ url_for('login') }}">Login</a>
+        <a class="button cadastro-button" href="{{ url_for('cadastro') }}">Cadastro</a>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            margin-bottom: 5px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 30%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            text-align: center;
+            /* Centraliza o texto na caixa */
+        }
+
+        textarea {
+            width: 30%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            resize: vertical;
+            /* Permite redimensionar verticalmente */
+            height: 30px;
+            /* Altura inicial menor */
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        p {
+            text-align: center;
+        }
+
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Cadastro</h2>
+    <form method="POST" action="{{ url_for('cadastro') }}">
+        <label for="username">Usuário:</label>
+        <input type="text" name="username" required>
+
+        <label for="password">Senha:</label>
+        <input type="password" name="password" required>
+
+        <label for="age">Idade:</label>
+        <input type="number" name="age" required>
+
+        <label for="sex">Gênero:</label>
+        <select name="sex" required>
+            <option value="" disabled selected>Selecione o Gênero</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Feminino">Feminino</option>
+            <option value="Outros">Outros</option>
+        </select>
+
+        <label for="health_goals">Objetivos de Saúde:</label>
+        <textarea name="health_goals" rows="2" cols="20"></textarea>
+
+        <button type="submit">Cadastrar</button>
+    </form>
+    <p>Já possui uma conta? <a href="{{ url_for('login') }}">Faça login</a></p>
+</body>
+
+</html>
